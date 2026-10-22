@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>植语 · UI 设计稿</title>
+<style>
+  :root{
+    --sage-50:#f6f7f4; --sage-100:#e8ebe3; --sage-200:#d3d8ca; --sage-300:#b5bea5;
+    --sage-400:#94a07e; --sage-500:#768462; --sage-600:#5c6a4c; --sage-700:#49543e;
+    --sage-800:#3c4534; --sage-900:#333a2d; --sage-950:#1a1f16;
+    --cream:#faf9f4; --paper:#f3f2ec; --ink:#1b2118; --ink-soft:#5b6650;
+    --rose:#e11d48;
+    --serif:"Songti SC","Noto Serif SC","Source Han Serif SC",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans SC","Helvetica Neue",Arial,sans-serif;
+    --hair:#e2ded3;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-font-smoothing:antialiased}
+  body{
+    margin:0;font-family:var(--sans);color:var(--ink);
+    background:var(--paper);
+    background-image:radial-gradient(120% 50% at 50% 0%,#fbfaf5 0%,rgba(243,242,236,0) 62%);
+    background-repeat:no-repeat;
+  }
+
+  /* ---------------- 板面 ---------------- */
+  .board{max-width:1120px;margin:0 auto;padding:64px 52px 140px}
+  .board-head{max-width:760px}
+  .kicker{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--sage-500);margin:0}
+  .board-head h1{font-family:var(--serif);font-weight:600;font-size:52px;line-height:1.1;margin:14px 0 0;letter-spacing:-.01em}
+  .board-head h1 em{font-style:normal;color:var(--sage-600)}
+  .lede{margin:18px 0 0;font-size:15px;line-height:1.85;color:var(--ink-soft);max-width:660px}
+  .chips{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:28px 0 0}
+  .chips li{font-size:12px;color:var(--sage-700);border:1px solid var(--sage-200);border-radius:99px;padding:5px 13px;background:rgba(255,255,255,.55)}
+
+  .rule{height:1px;background:var(--hair);margin:56px 0}
+
+  /* ---------------- 规范区 ---------------- */
+  .spec{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:36px 44px;margin-top:36px}
+  .spec h3{font-family:var(--serif);font-size:18px;font-weight:600;margin:0 0 14px}
+  .spec p{font-size:12.5px;line-height:1.75;color:var(--ink-soft);margin:6px 0}
+  .swatches{display:flex;gap:10px;flex-wrap:wrap}
+  .sw{width:64px}
+  .sw i{display:block;height:48px;border-radius:10px;border:1px solid rgba(27,33,24,.06)}
+  .sw span{display:block;font-size:10px;color:var(--sage-600);margin-top:6px;letter-spacing:.02em}
+  .type-row{display:flex;align-items:baseline;gap:14px;padding:8px 0;border-bottom:1px solid var(--hair)}
+  .type-row:last-child{border:0}
+  .type-row b{font-family:var(--serif);font-weight:600}
+  .type-row span{font-size:11px;color:var(--sage-500);margin-left:auto;white-space:nowrap}
+  .kv{display:flex;gap:10px;font-size:12.5px;color:var(--ink-soft);padding:5px 0}
+  .kv b{color:var(--ink);font-weight:500;min-width:66px}
+  .state-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
+  .state-table th,.state-table td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--hair);vertical-align:top}
+  .state-table th{font-weight:500;color:var(--sage-600);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+  .state-table td{color:var(--ink-soft)}
+
+  /* ---------------- 分组 ---------------- */
+  .group{margin-top:64px}
+  .group-head{display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--hair);padding-bottom:14px;margin-bottom:40px}
+  .group-head span{font-family:var(--serif);font-size:13px;color:var(--sage-400);letter-spacing:.16em}
+  .group-head h2{font-family:var(--serif);font-size:22px;font-weight:600;margin:0}
+  .group-head p{font-size:12.5px;color:var(--sage-500);margin:0 0 0 auto}
+
+  .frames{display:grid;grid-template-columns:repeat(2,390px);justify-content:center;gap:64px 48px}
+  figure.frame{margin:0;width:390px}
+  figcaption{margin-top:20px;padding-top:14px;border-top:1px solid var(--hair);width:390px}
+  .cap-no{font-size:10.5px;letter-spacing:.22em;color:var(--sage-400);text-transform:uppercase}
+  figcaption h3{font-family:var(--serif);font-size:16px;font-weight:600;margin:6px 0 0}
+  figcaption p{font-size:12px;line-height:1.7;color:var(--sage-500);margin:6px 0 0}
+
+  /* ---------------- 手机壳 ---------------- */
+  .phone{
+    position:relative;width:390px;height:844px;border-radius:40px;overflow:hidden;
+    background:var(--cream);
+    background-image:radial-gradient(120% 55% at 50% 0%,#ffffff 0%,rgba(250,249,244,0) 60%);
+    border:1px solid #d6d2c6;
+    box-shadow:0 34px 70px -42px rgba(28,38,22,.5),0 2px 0 rgba(255,255,255,.7) inset;
+    display:flex;flex-direction:column;font-size:14px;
+  }
+  .sb{flex:none;height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 30px;font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--ink)}
+  .sb-r{display:flex;align-items:center;gap:5px;color:var(--ink)}
+  .screen{flex:1;min-height:0;overflow:hidden;padding:14px 20px 0;position:relative}
+  .nav{flex:none;height:68px;border-top:1px solid rgba(211,216,202,.75);background:rgba(250,249,244,.94);display:flex}
+  .nav-item{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:var(--sage-400)}
+  .nav-item.on{color:var(--sage-700)}
+  .nav-item.on::before{content:"";position:absolute;top:0;left:16px;right:16px;height:2px;border-radius:2px;background:var(--sage-600)}
+  .nav-item span{font-size:10.5px;line-height:1}
+  .nav-item.on span{font-weight:500}
+
+  /* ---------------- 通用元件 ---------------- */
+  .ic{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  .ic.fill{fill:currentColor;stroke:none}
+  .row-between{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .h1{font-family:var(--serif);font-weight:600;font-size:27px;line-height:1.34;margin:10px 0 0;letter-spacing:-.005em}
+  .h1-sm{font-family:var(--serif);font-weight:600;font-size:21px;line-height:1.3;margin:0;letter-spacing:-.005em}
+  .sub{font-size:12.5px;line-height:1.7;color:var(--ink-soft);margin:8px 0 0}
+  .pill{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--sage-200);background:rgba(255,255,255,.72);border-radius:99px;padding:5px 10px 5px 8px;font-size:11px;color:var(--sage-700);white-space:nowrap}
+  .pill .ic{width:12px;height:12px;color:var(--sage-500)}
+  .searchbox{display:flex;align-items:center;gap:10px;border:1px solid var(--sage-200);background:rgba(255,255,255,.82);border-radius:16px;padding:12px 14px;color:var(--sage-400);font-size:12.5px;margin-top:14px}
+  .searchbox .ic{color:var(--sage-500)}
+  .searchbox .grow{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  .hint{font-size:10px;color:var(--sage-400);margin:7px 0 0 2px;letter-spacing:.01em}
+  .sec{font-family:var(--serif);font-size:16.5px;font-weight:600;margin:22px 0 0}
+  .sec-row{display:flex;align-items:baseline;gap:8px;margin-top:20px}
+  .sec-row h2{font-family:var(--serif);font-size:16.5px;font-weight:600;margin:0}
+  .sec-row span{font-size:11px;color:var(--sage-500)}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:12px;row-gap:18px;margin-top:14px}
+  .card{position:relative;min-width:0}
+  .thumb{position:relative;display:block;aspect-ratio:1/1;border-radius:12px;overflow:hidden;background:var(--sage-100)}
+  .thumb .fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--sage-400)}
+  .thumb .fallback .ic{width:22px;height:22px}
+  .thumb img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;display:block}
+  .cname{display:block;margin-top:7px;font-size:12.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .csci{display:block;font-size:9.5px;font-style:italic;color:var(--sage-500);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+  .cfoot{display:block;font-size:9px;color:var(--sage-400);margin-top:2px}
+  .badge{position:absolute;left:6px;top:6px;z-index:2;font-size:9px;font-weight:500;line-height:1;color:var(--sage-600);background:rgba(255,255,255,.88);border-radius:99px;padding:4px 6px;backdrop-filter:blur(4px)}
+  .heart{position:absolute;right:6px;top:6px;z-index:2;width:26px;height:26px;border-radius:99px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.88);color:var(--sage-500);backdrop-filter:blur(4px)}
+  .heart.on{background:var(--rose);color:#fff}
+  .heart .ic{width:12px;height:12px}
+
+  .empty{border:1px dashed var(--sage-200);border-radius:16px;padding:26px 22px;text-align:center;margin-top:14px}
+  .empty .ic{color:var(--sage-300);width:22px;height:22px}
+  .empty h4{font-family:var(--serif);font-size:15px;font-weight:600;margin:10px 0 0}
+  .empty p{font-size:12px;line-height:1.75;color:var(--sage-500);margin:6px auto 0;max-width:250px}
+
+  .garden-row{display:flex;align-items:center;gap:14px;border-top:1px solid var(--sage-200);padding-top:16px;margin-top:20px}
+  .garden-row .txt{flex:1;min-width:0}
+  .garden-row .txt b{font-family:var(--serif);font-size:16px;font-weight:600;display:block}
+  .garden-row .txt span{font-size:10.5px;color:var(--sage-500)}
+  .avatars{display:flex;align-items:center;gap:6px}
+  .avatar{width:30px;height:30px;border-radius:99px;overflow:hidden;border:1px solid var(--sage-200);background:var(--sage-100);display:flex;align-items:center;justify-content:center;color:var(--sage-400)}
+  .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+  .avatar .ic{width:13px;height:13px}
+
+  /* ---------------- 详情 ---------------- */
+  .detail{position:absolute;inset:0;background:var(--cream);display:flex;flex-direction:column;overflow:hidden;z-index:3}
+  .hero{position:relative;flex:none;height:214px;background:var(--sage-200);overflow:hidden}
+  .hero img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;display:block}
+  .hero .fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--sage-400)}
+  .hero .shade{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,31,22,.72),rgba(26,31,22,.08) 58%,transparent)}
+  .close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:99px;background:rgba(255,255,255,.92);color:var(--sage-700);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
+  .close .ic{width:15px;height:15px}
+  .src-badge{position:absolute;top:14px;left:14px;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.92);color:var(--sage-600);font-size:10.5px;font-weight:500;padding:5px 9px;border-radius:99px;backdrop-filter:blur(6px)}
+  .src-badge .ic{width:11px;height:11px}
+  .hero-txt{position:absolute;left:20px;right:20px;bottom:16px;color:#fff}
+  .hero-txt .cat{display:inline-block;background:rgba(255,255,255,.9);color:var(--sage-700);font-size:9.5px;font-weight:500;padding:3px 8px;border-radius:99px;margin-bottom:8px}
+  .hero-txt h2{font-family:var(--serif);font-size:28px;font-weight:600;margin:0;line-height:1.2}
+  .hero-txt p{font-style:italic;font-size:11.5px;color:var(--sage-200);margin:4px 0 0}
+  .detail-body{flex:1;min-height:0;overflow:hidden;padding:16px 20px 0}
+  .btn-primary{display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:16px;background:var(--sage-700);color:#fff;font-size:12.5px;font-weight:500}
+  .btn-ghost{display:flex;align-items:center;justify-content:center;gap:7px;height:42px;border-radius:16px;border:1px solid var(--sage-200);background:rgba(255,255,255,.82);color:var(--sage-700);font-size:12px;font-weight:500;margin-top:9px}
+  .btn-ghost .ic{width:14px;height:14px}
+  .desc{font-size:13px;line-height:1.78;color:var(--sage-700);margin:16px 0 0}
+  .block-h{font-family:var(--serif);font-size:15.5px;font-weight:600;margin:20px 0 10px}
+  .care-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  .care{display:flex;align-items:flex-start;gap:7px;background:#fff;border:1px solid var(--sage-100);border-radius:12px;padding:7px 9px}
+  .care .ic{width:14px;height:14px;margin-top:1px}
+  .care b{display:block;font-size:9px;font-weight:400;color:var(--sage-500);line-height:1.3}
+  .care span{display:block;font-size:11px;color:var(--ink);line-height:1.35;margin-top:1px}
+  .tox{display:flex;gap:9px;background:rgba(232,235,227,.75);border-radius:14px;padding:11px 12px;margin-top:16px}
+  .tox .ic{width:15px;height:15px;color:var(--sage-600);margin-top:1px}
+  .tox b{display:block;font-size:11.5px;font-weight:500;color:var(--sage-800)}
+  .tox span{display:block;font-size:11px;color:var(--sage-600);margin-top:2px;line-height:1.5}
+  .tips{list-style:none;padding:0;margin:0}
+  .tips li{display:flex;gap:9px;margin-bottom:9px}
+  .tips .ic{width:14px;height:14px;color:var(--sage-500);margin-top:1px}
+  .tips span{font-size:11.5px;line-height:1.65;color:var(--sage-700)}
+  .notice{border-radius:14px;background:rgba(232,235,227,.75);padding:13px 14px;font-size:11.5px;line-height:1.75;color:var(--sage-600);margin-top:18px}
+
+  /* ---------------- 浮层 ---------------- */
+  .scrim{position:absolute;inset:0;background:rgba(26,31,22,.42);backdrop-filter:blur(2px);z-index:2}
+  .sheet{position:absolute;left:0;right:0;bottom:0;z-index:4;background:var(--cream);border-radius:26px 26px 0 0;padding:10px 20px calc(24px + env(safe-area-inset-bottom));box-shadow:0 -18px 40px -24px rgba(26,31,22,.45)}
+  .handle{width:36px;height:4px;border-radius:99px;background:var(--sage-300);margin:0 auto 16px}
+  .sheet h3{font-family:var(--serif);font-size:17px;font-weight:600;margin:0 0 4px}
+  .sheet .lead{font-size:11.5px;color:var(--sage-500);line-height:1.7;margin:0 0 14px}
+  .btn-locate{display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:16px;background:var(--sage-700);color:#fff;font-size:12.5px;font-weight:500}
+  .selects{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+  .select{border:1px solid var(--sage-200);background:#fff;border-radius:14px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--ink);height:44px}
+  .select .ic{width:14px;height:14px;color:var(--sage-400)}
+  .sheet-foot{display:flex;gap:8px;margin-top:12px}
+  .sheet-foot .btn-clear{flex:1;height:40px;border-radius:14px;border:1px solid var(--sage-200);display:flex;align-items:center;justify-content:center;font-size:11.5px;color:var(--sage-600)}
+  .sheet-foot .btn-cancel{flex:1;height:40px;border-radius:14px;background:var(--sage-100);display:flex;align-items:center;justify-content:center;font-size:11.5px;color:var(--sage-800);font-weight:500}
+
+  .prompt{position:absolute;left:14px;right:14px;bottom:14px;z-index:4;background:var(--cream);border-radius:22px;padding:18px;box-shadow:0 22px 50px -20px rgba(26,31,22,.55)}
+  .prompt-top{display:flex;gap:12px;align-items:center}
+  .prompt-thumb{width:44px;height:44px;border-radius:12px;overflow:hidden;background:var(--sage-100);flex:none;display:flex;align-items:center;justify-content:center;color:var(--sage-400)}
+  .prompt-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .prompt-top h4{font-size:13.5px;font-weight:500;margin:0;line-height:1.55}
+  .prompt-top p{font-size:11px;color:var(--sage-500);margin:2px 0 0}
+  .prompt-actions{display:flex;gap:8px;margin-top:16px}
+  .prompt-actions .solid{flex:1;height:42px;border-radius:14px;background:var(--sage-700);color:#fff;font-size:12px;font-weight:500;display:flex;align-items:center;justify-content:center}
+  .prompt-actions .ghost{width:96px;height:42px;border-radius:14px;background:var(--sage-100);color:var(--sage-700);font-size:12px;display:flex;align-items:center;justify-content:center}
+
+  /* ---------------- 启动页 ---------------- */
+  .splash{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:0 32px}
+  .splash .mark{width:64px;height:64px;border-radius:99px;background:var(--sage-100);display:flex;align-items:center;justify-content:center;color:var(--sage-600)}
+  .splash .mark .ic{width:30px;height:30px;stroke-width:1.3}
+  .splash h2{font-family:var(--serif);font-size:42px;font-weight:600;letter-spacing:.14em;margin:22px 0 0;text-indent:.14em}
+  .growline{width:54px;height:1px;background:var(--sage-300);margin-top:22px;transform-origin:left;animation:growline 2.4s cubic-bezier(.16,1,.3,1) infinite}
+  @keyframes growline{0%{transform:scaleX(.15);opacity:.4}55%{transform:scaleX(1);opacity:1}100%{transform:scaleX(.15);opacity:.4}}
+  .splash .latin{font-size:10px;letter-spacing:.34em;color:var(--sage-500);margin:18px 0 0;text-indent:.34em}
+  .splash .foot{position:absolute;bottom:38px;font-size:10.5px;color:var(--sage-400);letter-spacing:.08em;margin:0}
+
+  /* ---------------- 我的 ---------------- */
+  .section-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--sage-500);margin:18px 0 8px;display:flex;align-items:center;gap:5px}
+  .section-label .ic{width:11px;height:11px}
+  .loc-card{border:1px solid var(--sage-200);background:rgba(255,255,255,.82);border-radius:16px;padding:13px 14px}
+  .loc-card .row-between b{font-size:12.5px;font-weight:500}
+  .loc-card .meta{font-size:10.5px;color:var(--sage-500);margin-top:3px}
+  .loc-actions{display:flex;gap:7px;margin-top:11px}
+  .loc-actions .a{flex:1;height:32px;border-radius:10px;border:1px solid var(--sage-200);display:flex;align-items:center;justify-content:center;gap:4px;font-size:10.5px;color:var(--sage-700);background:#fff}
+  .loc-actions .a.primary{background:var(--sage-700);border-color:var(--sage-700);color:#fff}
+  .setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--sage-200);background:rgba(255,255,255,.82);border-radius:16px;padding:12px 14px}
+  .setting-row p{font-size:12px;margin:0}
+  .setting-row small{display:block;font-size:10px;color:var(--sage-500);margin-top:2px;line-height:1.6}
+  .switch{width:40px;height:22px;border-radius:99px;background:var(--sage-600);position:relative;flex:none}
+  .switch::after{content:"";position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:99px;background:#fff}
+  .garden-stat{border:1px solid var(--sage-200);background:rgba(255,255,255,.82);border-radius:16px;padding:14px}
+  .garden-stat .num{font-family:var(--serif);font-size:26px;font-weight:600;line-height:1}
+  .garden-stat .num small{font-family:var(--sans);font-size:11px;font-weight:400;color:var(--sage-500);margin-left:6px}
+  .garden-stat .cats{display:flex;flex-wrap:wrap;gap:4px 12px;border-top:1px solid rgba(211,216,202,.7);margin-top:11px;padding-top:10px}
+  .garden-stat .cats span{font-size:10px;color:var(--sage-600)}
+  .sources{border-top:1px solid rgba(211,216,202,.7)}
+  .source{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid rgba(211,216,202,.7)}
+  .source b{font-size:11.5px;font-weight:400;display:block}
+  .source span{font-size:10px;color:var(--sage-500);line-height:1.6;display:block;margin-top:1px}
+  .source .link{font-size:9.5px;color:var(--sage-600);text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--sage-300);display:inline-flex;align-items:center;gap:3px;flex:none;margin-top:2px}
+  .source .link .ic{width:9px;height:9px}
+
+  @media (max-width:900px){.board{padding:44px 20px 100px}.frames{grid-template-columns:390px}}
+  @media print{body{background:#fff}.board{padding:0}.phone{box-shadow:none}}
+</style>
+</head>
+<body>
+
+<!-- ============ 图标 ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M4.5 19.5C4 12 10 5.6 19.5 5c.5 8.5-5.2 14.5-15 14.5Z"/><path d="M4.5 19.5c3.6-5.6 7.6-9 12-11"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.2s-7.6-4.7-7.6-9.6A4.2 4.2 0 0 1 12 8a4.2 4.2 0 0 1 7.6 2.6c0 4.9-7.6 9.6-7.6 9.6Z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16.2 16.2 4.3 4.3"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.6 12 4l8 6.6V20a1 1 0 0 1-1 1h-4.4v-6.2H9.4V21H5a1 1 0 0 1-1-1Z"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4h5.5A2.5 2.5 0 0 1 13 6.5V21a2.6 2.6 0 0 0-2.5-2.5H5Z"/><path d="M19 4h-5.5A2.5 2.5 0 0 0 11 6.5V21a2.6 2.6 0 0 1 2.5-2.5H19Z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20.2c0-3.6 3.1-6.2 7-6.2s7 2.6 7 6.2"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s6-5.4 6-10a6 6 0 1 0-12 0c0 4.6 6 10 6 10Z"/><circle cx="12" cy="11" r="2.2"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.6"/><path d="M12 2.6v2M12 19.4v2M2.6 12h2M19.4 12h2M5.4 5.4l1.4 1.4M17.2 17.2l1.4 1.4M18.6 5.4l-1.4 1.4M6.8 17.2l-1.4 1.4"/></symbol>
+  <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3.4c3 3.6 5.6 6.3 5.6 9.1a5.6 5.6 0 0 1-11.2 0c0-2.8 2.6-5.5 5.6-9.1Z"/></symbol>
+  <symbol id="i-wind" viewBox="0 0 24 24"><path d="M3 9h11a3 3 0 1 0-3-3"/><path d="M3 15h8a3 3 0 1 1-3 3"/></symbol>
+  <symbol id="i-thermo" viewBox="0 0 24 24"><path d="M14 14.6V5.2a2 2 0 1 0-4 0v9.4a4 4 0 1 0 4 0Z"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24"><path d="M10 3h4v5l4.1 8.3A3 3 0 0 1 15.4 21H8.6A3 3 0 0 1 5.9 16.3L10 8Z"/><path d="M8.2 14h7.6"/></symbol>
+  <symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4.5 18.5a8 8 0 1 1 15 0"/><path d="M12 14.5 15.5 10"/></symbol>
+  <symbol id="i-skull" viewBox="0 0 24 24"><path d="M6 12.4a6 6 0 1 1 12 0v3.2l-1.6 1V20h-8.8v-3.4l-1.6-1Z"/><circle cx="9.6" cy="12" r="1"/><circle cx="14.4" cy="12" r="1"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.6 4.6 4.5L19 7.2"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M3.6 12h16.8M12 3.6c4.2 4.6 4.2 12.2 0 16.8-4.2-4.6-4.2-12.2 0-16.8"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 5h5v5M19 5l-7.2 7.2"/><path d="M18 14v4.5a1 1 0 0 1-1 1H6.5a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1H11"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3.4l1.7 4.7 4.7 1.7-4.7 1.7L12 16.2l-1.7-4.7L5.6 9.8l4.7-1.7Z"/><path d="M18.6 15.4l.7 1.9 1.9.7-1.9.7-.7 1.9-.7-1.9-1.9-.7 1.9-.7Z"/></symbol>
+  <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.4"/><path d="M12 11v5.4M12 7.8v.4"/></symbol>
+</svg>
+
+<div class="board">
+
+  <!-- ============ 头部 ============ -->
+  <header class="board-head">
+    <p class="kicker">植语 · Plant Care</p>
+    <h1>UI 设计稿 <em>/ 12 屏</em></h1>
+    <p class="lede">
+      依据《植语 PRD v1.0》整理的移动端界面设计：四个一级页签，一套奶油纸感底 + 墨绿文字 + 苔绿单点强调的克制的有机极简语言。
+      所有屏幕使用真实文案与真实数据结构，覆盖空态、无资料、浮层与确认等关键分支。
+    </p>
+    <ul class="chips">
+      <li>iPhone 390 × 844</li>
+      <li>三列紧凑网格</li>
+      <li>离线优先</li>
+      <li>无注册 / 无付费</li>
+      <li>4 页签 · 12 屏</li>
+    </ul>
+  </header>
+
+  <div class="rule"></div>
+
+  <!-- ============ 设计规范 ============ -->
+  <section class="spec">
+    <div>
+      <h3>色板</h3>
+      <div class="swatches">
+        <div class="sw"><i style="background:#faf9f4"></i><span>Cream</span></div>
+        <div class="sw"><i style="background:#f3f2ec"></i><span>Paper</span></div>
+        <div class="sw"><i style="background:#e8ebe3"></i><span>Sage 100</span></div>
+        <div class="sw"><i style="background:#768462"></i><span>Sage 500</span></div>
+        <div class="sw"><i style="background:#49543e"></i><span>Sage 700</span></div>
+        <div class="sw"><i style="background:#1b2118"></i><span>Ink</span></div>
+        <div class="sw"><i style="background:#e11d48"></i><span>Rose</span></div>
+      </div>
+      <p>单一强调色：苔绿。仅在主按钮、激活页签、心形（收藏态用玫红）出现。大面积为奶油底，不使用投影堆叠，用发丝线分隔。</p>
+    </div>
+
+    <div>
+      <h3>字体</h3>
+      <div class="type-row"><b style="font-size:27px">今天也好好照料植物</b><span>Serif 27 / 页面主标题</span></div>
+      <div class="type-row"><b style="font-size:22px">本地植物百科</b><span>Serif 21 / 页面标题</span></div>
+      <div class="type-row"><b style="font-size:17px">养护参数</b><span>Serif 16.5 / 区块标题</span></div>
+      <div class="type-row"><b style="font-size:12.5px;font-family:var(--sans)">卡片名称与正文</b><span>Sans 12.5 / 正文</span></div>
+      <div class="type-row"><b style="font-size:10px;font-family:var(--sans);letter-spacing:.2em">PLANT CARE</b><span>Sans 10 / 标签</span></div>
+      <p>标题使用宋体 / 思源宋体（拉丁回退 Fraunces–Georgia），正文使用系统无衬线。字重只用 400 / 500 / 600，靠字阶与留白建立层级。</p>
+    </div>
+
+    <div>
+      <h3>栅格与圆角</h3>
+      <div class="kv"><b>屏宽</b><span>390，左右留白 20</span></div>
+      <div class="kv"><b>卡片网格</b><span>3 列 · 列间距 12 · 行间距 18</span></div>
+      <div class="kv"><b>圆角</b><span>缩略图 12 · 搜索框/按钮 16 · 弹层 26</span></div>
+      <div class="kv"><b>点击目标</b><span>心形 26 · 按钮 ≥ 40 · 页签 58</span></div>
+      <div class="kv"><b>分隔</b><span>1px · #e2ded3 / sage-200</span></div>
+      <p>间距以 4 为基准：4 / 8 / 12 / 16 / 20 / 24 / 32。同一屏内相同层级只用一种间距，避免节奏混乱。</p>
+    </div>
+
+    <div>
+      <h3>状态覆盖</h3>
+      <table class="state-table">
+        <tr><th>分支</th><th>设计处理</th></tr>
+        <tr><td>未浏览 / 未收藏</td><td>虚线空态 + 引导文案，不出现灰掉按钮</td></tr>
+        <tr><td>无养护资料</td><td>只给提示框与外链，不编造六格参数</td></tr>
+        <tr><td>图片加载失败</td><td>整块替换为苔绿叶形图标，不留破图</td></tr>
+        <tr><td>退出搜索</td><td>清空查询并回到本地内容，不残留上次结果</td></tr>
+        <tr><td>收藏 / 移出</td><td>模态确认条，双向都需确认，可「暂不」</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- ============ 分组 01 ============ -->
+  <section class="group">
+    <div class="group-head">
+      <span>01</span>
+      <h2>启动、定位与首页</h2>
+      <p>从启动到看见内容</p>
+    </div>
+
+    <div class="frames">
+
+      <!-- 01 启动页 -->
+      <figure class="frame">
+        <div class="phone">
+          <div class="sb"></div>
+          <div class="splash">
+            <div class="mark"><svg class="ic"><use href="#i-leaf"/></svg></div>
+            <h2>植语</h2>
+            <div class="growline"></div>
+            <p class="latin">PLANT CARE</p>
+            <p class="foot">离线可用 · 无需注册</p>
+          </div>
+        </div>
+        <figcaption>
+          <div class="cap-no">Screen 01</div>
+          <h3>启动页</h3>
+          <p>字体就绪且不少于 1.5 秒后淡出。只放品牌标记与一条生长的细线，不做进度条，避免等待感被放大。</p>
+        </figcaption>
+      </figure>
+
+      <!-- 02 首页 -->
+      <figure class="frame">
+        <div class="phone">
+          <div class="sb"></div>
+          <div class="screen" data-clone="tpl-home"></div>
+          <nav class="nav" data-active="home"></nav>
+        </div>
+        <figcaption>
+          <div class="cap-no">Screen 02</div>
+          <h3>首页 · 有浏览记录</h3>
+          <p>问候语 + 定位胶囊 + 吸顶搜索入口 + 花园概览 + 最近浏览（3 列）。浏览过的植物自动出现在这里，看得越多图鉴越丰富。</p>
+        </figcaption>
+      </figure>
+
+      <!-- 03 首页空态 -->
+      <figure class="frame">
+        <div class="phone">
+          <div class="sb"></div>
+          <div class="screen" data-clone="tpl-home-empty"></div>
+          <nav class="nav" data-active="home"></nav>
+        </div>
+        <figcaption>
+          <div class="cap-no">Screen 03</div>
+          <h3>首页 · 空态</h3>
+          <p>从未浏览过时，最近浏览区用虚线框承接，文案说明「点开任意一株植物它就会出现在这里」，把空态变成行为引导。</p>
+        </figcaption>
+      </figure>
+
+      <!-- 04 定位弹层 -->
+      <figure class="frame">
+        <div class="phone">
+          <div class="sb"></div>
+          <div class="screen" data-clone="tpl-home"></div>
+          <nav class="nav" data-active="home"></nav>
+          <div class="scrim"></div>
+          <div class="sheet">
+            <div class="handle"></div>
+            <h3>选择位置</h3>
+            <p class="lead">授权后展示所在省份的常见植物；也可以直接手动选择。</p>
+            <div class="btn-locate"><svg class="ic"><use href="#i-pin"/></svg>使用当前位置</div>
+            <div class="selects">
+              <div class="select"><span>浙江省</span><svg class="ic"><use href="#i-chev"/></svg></div>
+              <div class="select"><span>杭州市</span><svg class="ic"><use href="#i-chev"/></svg></div>
+            </div>
+            <div class="sheet-foot">
+              <div class="btn-clear">清除定位</div>
+              <div class="btn-cancel">取消</div>
+            </div>
+          </div>
+        </div>
+        <figcaption>
+          <div class="cap-no">Screen 04</div>
+          <h3>定位底部弹层</h3>
+          <p>定位权限只在点击「使用当前位置」时申请，不在启动时弹出。触控目标不小于 44px，清除与取消分列底部两角。</p>
+        </figcaption>
+      </figure>
+
+    </div>
+  </section>
+
+  <!-- ============ 分组 02 ============ -->
+  <section class="group">
+    <div class="group-head">
+      <span>02</span>
+      <h2>查询与详情</h2>
+      <p>从本地内容进入联网百科</p>
+    </div>
+
+    <div class="frames">
+
+      <!-- 04 本地植物百科 -->
+      <figure class="frame">
+        <div class="phone">
+          <div class="sb"></div>
+          <div class="screen" data-clone="tpl-atlas"></div>
+          <nav class="nav" data-active="atlas"></nav>
+        </div>
+        <figcaption>
+          <div class="cap-no">Screen 05</div>
+          <h3>本地植物百科 · 省排行</h3>
+          <p>已授权定位时的默认视图：浙江常见植物共 18 种，按名次角标排列。收藏的植物自动置顶，所有行都有心形且可点开详情。</p>
+        </figcaption>
+      </figure>
+
+      <!-- 05 联网查询 -->
+      <figure class="frame">
+        <div class="phone">
+          <div class="sb"></div>
+          <div class="screen" data-clone="tpl-search"></div>
+          <nav class="nav" data-active="atlas"></nav>
+        </div>
+        <figcaption>
+          <div class="cap-no">Screen 06</div>
+          <h3>联网查询 · 双分区结果</h3>
+          <p>点搜索框即进入联网视图，输入「樟」后同屏展示本地结果与中国植物志结果。联网条目不预置养护参数，缩略图直接使用叶形回退。</p>
+        </figcaption>
+      </figure>
+
+      <!-- 06 详情 · 有资料 -->
+      <figure class="frame">
+        <div class="phone">
+          <div class="sb"></div>
+          <div class="screen" data-clone="tpl-atlas"></div>
+          <div class="detail">
+            <div class="hero">
+              <div class="fallback"><svg class="ic"><use href="#i-leaf"/></svg></div>
+              <img data-p="large camphor tree canopy, glossy green leaves, dappled southern sunlight, editorial nature photography" data-size="landscape_4_3" alt="" onerror="this.remove()" />
+              <div class="shade"></div>
+              <div class="close"><svg class="ic"><use href="#i-x"/></svg></div>
+              <div class="hero-txt">
+                <span class="cat">乡土植物</span>
+                <h2>樟树</h2>
+                <p>Cinnamomum camphora</p>
+              </div>
+            </div>
+            <div class="detail-body">
+              <div class="btn-primary"><svg class="ic"><use href="#i-heart"/></svg>加入我的花园</div>
+              <p class="desc">樟科常绿大乔木，南方最常见的行道树与庭荫树之一，全株散发樟脑清香。</p>
+              <h4 class="block-h">养护参数</h4>
+              <div class="care-grid">
+                <div class="care"><svg class="ic" style="color:#d99a2b"><use href="#i-sun"/></svg><div><b>光照</b><span>全日照，亦耐半阴</span></div></div>
+                <div class="care"><svg class="ic" style="color:#4a90c4"><use href="#i-drop"/></svg><div><b>浇水</b><span>耐旱，幼苗保持微润</span></div></div>
+                <div class="care"><svg class="ic" style="color:#4b9c8e"><use href="#i-wind"/></svg><div><b>湿度</b><span>适应性强</span></div></div>
+                <div class="care"><svg class="ic" style="color:#c2726f"><use href="#i-thermo"/></svg><div><b>温度</b><span>喜温暖，耐 -7℃</span></div></div>
+                <div class="care"><svg class="ic" style="color:#768462"><use href="#i-flask"/></svg><div><b>土壤</b><span>微酸性砂质壤土</span></div></div>
+                <div class="care"><svg class="ic" style="color:#8f7bb0"><use href="#i-gauge"/></svg><div><b>难度</b><span>中等</span></div></div>
+              </div>
+              <div class="tox">
+                <svg class="ic"><use href="#i-skull"/></svg>
+                <div><b>毒性提示</b><span>枝叶含樟脑香气，不可食用</span></div>
+              </div>
+              <h4 class="block-h">养护贴士</h4>
+              <ul class="tips">
+                <li><svg class="ic"><use href="#i-check"/></svg><span>移栽宜在春季萌芽前进行，需带土球</span></li>
+                <li><svg class="ic"><use href="#i-check"/></svg><span>作盆景观赏需常修剪控制株高</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <figcaption>
+          <div class="cap-no">Screen 07</div>
+          <h3>详情 · 有养护资料</h3>
+          <p>标准格式：一句描述 → 六格养护参数 → 毒性提示 → 养护贴士。面板自右滑入，顶部图区承载名称与分类，正文不堆叠卡片。</p>
+        </figcaption>
+      </figure>
+
+      <!-- 07 详情 · 无资料 -->
+      <figure class="frame">
+        <div class="phone">
+          <div class="sb"></div>
+          <div class="screen" data-clone="tpl-search"></div>
+          <div class="detail">
+            <div class="hero">
+              <div class="fallback"><svg class="ic"><use href="#i-leaf"/></svg></div>
+              <img data-p="ginkgo biloba golden fan shaped leaves on branch in autumn, soft warm light, botanical photography" data-size="landscape_4_3" alt="" onerror="this.remove()" />
+              <div class="shade"></div>
+              <div class="close"><svg class="ic"><use href="#i-x"/></svg></div>
+              <div class="src-badge"><svg class="ic"><use href="#i-globe"/></svg>来自中国植物志</div>
+              <div class="hero-txt">
+                <span class="cat">中国植物志</span>
+                <h2>银杏</h2>
+                <p>Ginkgo biloba</p>
+              </div>
+            </div>
+            <div class="detail-body">
+              <div class="btn-primary"><svg class="ic"><use href="#i-heart"/></svg>加入我的花园</div>
+              <div class="btn-ghost"><svg class="ic"><use href="#i-ext"/></svg>在中国植物志（iplant.cn）查看完整条目</div>
+              <p class="desc">银杏科落叶大乔木，有「活化石」之称，扇形叶入秋金黄。</p>
+              <div class="notice">该条目来自中国植物志（iplant.cn），暂无养护资料，可点击上方按钮查看完整条目。</div>
+            </div>
+          </div>
+        </div>
+        <figcaption>
+          <div class="cap-no">Screen 08</div>
+          <h3>详情 · 无养护资料</h3>
+          <p>联网条目只有提示框与原文入口，不给默认参数、不展示植物志长文。宁可少说，也不编造——这是本产品最重要的内容边界。</p>
+        </figcaption>
+      </figure>
+
+    </div>
+  </section>
+
+  <!-- ============ 分组 03 ============ -->
+  <section class="group">
+    <div class="group-head">
+      <span>03</span>
+      <h2>收藏、花园与我的</h2>
+      <p>操作确认与个人设置</p>
+    </div>
+
+    <div class="frames">
+
+      <!-- 12 收藏确认 -->
+      <figure class="frame">
+        <div class="phone">
+          <div class="sb"></div>
+          <div class="screen" data-clone="tpl-atlas"></div>
+          <nav class="nav" data-active="atlas"></nav>
+          <div class="scrim"></div>
+          <div class="prompt">
+            <div class="prompt-top">
+              <div class="prompt-thumb"><img data-p="monstera deliciosa leafy plant detail, soft window light, minimal cream interior" alt="" onerror="this.remove()" /></div>
+              <div>
+                <h4>收藏「龟背竹」到我的花园吗？</h4>
+                <p>可在「我的 → 提醒设置」中关闭此确认</p>
+              </div>
+            </div>
+            <div class="prompt-actions">
+              <div class="solid">收藏</div>
+              <div class="ghost">暂不</div>
+            </div>
+          </div>
+        </div>
+        <figcaption>
+          <div class="cap-no">Screen 09</div>
+          <h3>收藏确认条</h3>
+          <p>只有主动点心形才出现，收藏与移出两个方向都有确认。「暂不」不做任何变更；浏览或关闭详情不会打扰。</p>
+        </figcaption>
+      </figure>
+
+      <!-- 09 花园 -->
+      <figure class="frame">
+        <div class="phone">
+          <div class="sb"></div>
+          <div class="screen" data-clone="tpl-garden"></div>
+          <nav class="nav" data-active="garden"></nav>
+        </div>
+        <figcaption>
+          <div class="cap-no">Screen 10</div>
+          <h3>我的花园 · 有收藏</h3>
+          <p>副标题直接给出数量，卡片沿用全局三列网格。心形为实心态，点击进入「移出」确认；收藏状态在四个页签间实时一致。</p>
+        </figcaption>
+      </figure>
+
+      <!-- 09 花园空态 -->
+      <figure class="frame">
+        <div class="phone">
+          <div class="sb"></div>
+          <div class="screen" data-clone="tpl-garden-empty"></div>
+          <nav class="nav" data-active="garden"></nav>
+        </div>
+        <figcaption>
+          <div class="cap-no">Screen 11</div>
+          <h3>我的花园 · 空态</h3>
+          <p>居中叶形标记 + 一句说明 + 一个主行动按钮「去本地图鉴」。空态不做插画堆砌，保持与全站相同的语气。</p>
+        </figcaption>
+      </figure>
+
+      <!-- 10 我的 -->
+      <figure class="frame">
+        <div class="phone">
+          <div class="sb"></div>
+          <div class="screen" data-clone="tpl-profile"></div>
+          <nav class="nav" data-active="profile"></nav>
+        </div>
+        <figcaption>
+          <div class="cap-no">Screen 12</div>
+          <h3>我的</h3>
+          <p>定位设置、收藏提醒开关、花园统计与数据来源。来源行带外链：维基在应用内打开，iplant.cn 因 CSP 限制必须外部打开。</p>
+        </figcaption>
+      </figure>
+
+    </div>
+  </section>
+
+</div>
+
+<!-- ============ 屏幕模板 ============ -->
+<template id="tpl-home">
+  <div class="row-between">
+    <p class="kicker" style="font-size:10px">植语 · Plant Care</p>
+    <div class="pill"><svg class="ic"><use href="#i-pin"/></svg><span>杭州</span></div>
+  </div>
+  <h1 class="h1">下午好，<br/>今天也好好照料植物</h1>
+  <p class="sub">离线图鉴随时可查，联网百科补充更多植物资料。</p>
+  <div class="searchbox">
+    <svg class="ic"><use href="#i-search"/></svg>
+    <span class="grow">搜索植物名称，如龟背竹、绿萝…</span>
+    <svg class="ic" style="width:14px;height:14px;color:var(--sage-300)"><use href="#i-chev"/></svg>
+  </div>
+  <div class="garden-row">
+    <div class="txt"><b>我的花园</b><span>已收藏 4 株植物</span></div>
+    <div class="avatars">
+      <span class="avatar"><svg class="ic"><use href="#i-leaf"/></svg><img data-p="monstera deliciosa leaf close up, minimal" alt="" onerror="this.remove()"/></span>
+      <span class="avatar"><svg class="ic"><use href="#i-leaf"/></svg><img data-p="fiddle leaf fig leaves, bright daylight" alt="" onerror="this.remove()"/></span>
+      <span class="avatar"><svg class="ic"><use href="#i-leaf"/></svg><img data-p="pothos trailing vine leaves, soft light" alt="" onerror="this.remove()"/></span>
+      <svg class="ic" style="width:14px;height:14px;color:var(--sage-300)"><use href="#i-chev"/></svg>
+    </div>
+  </div>
+  <h2 class="sec">最近浏览</h2>
+  <div class="grid3" data-cards="monstera:f,fiddle,pothos:f,snake,zz,lily"></div>
+</template>
+
+<template id="tpl-home-empty">
+  <div class="row-between">
+    <p class="kicker" style="font-size:10px">植语 · Plant Care</p>
+    <div class="pill"><svg class="ic"><use href="#i-pin"/></svg><span>杭州</span></div>
+  </div>
+  <h1 class="h1">下午好，<br/>今天也好好照料植物</h1>
+  <p class="sub">离线图鉴随时可查，联网百科补充更多植物资料。</p>
+  <div class="searchbox">
+    <svg class="ic"><use href="#i-search"/></svg>
+    <span class="grow">搜索植物名称，如龟背竹、绿萝…</span>
+    <svg class="ic" style="width:14px;height:14px;color:var(--sage-300)"><use href="#i-chev"/></svg>
+  </div>
+  <div class="garden-row">
+    <div class="txt"><b>我的花园</b><span>还没有植物，去图鉴添加吧</span></div>
+    <div class="avatars"><svg class="ic" style="width:14px;height:14px;color:var(--sage-300)"><use href="#i-chev"/></svg></div>
+  </div>
+  <h2 class="sec">最近浏览</h2>
+  <div class="empty">
+    <svg class="ic"><use href="#i-leaf"/></svg>
+    <h4>这里还空着呢</h4>
+    <p>去本地图鉴或植物百科点开任意一株植物，它就会出现在这里——看得越多，你的图鉴就越丰富。</p>
+  </div>
+</template>
+
+<template id="tpl-atlas">
+  <header>
+    <div class="row-between">
+      <h1 class="h1-sm">本地植物百科</h1>
+      <div class="pill"><svg class="ic"><use href="#i-pin"/></svg><span>杭州</span></div>
+    </div>
+    <p class="sub">授权定位后展示所在省份的常见植物，未授权时展示离线 20 种。</p>
+  </header>
+  <div class="searchbox" style="margin-top:12px">
+    <svg class="ic"><use href="#i-search"/></svg>
+    <span class="grow">搜索植物名称，如樟树、桂花…</span>
+  </div>
+  <p class="hint">浙江常见植物共 18 种</p>
+  <div class="sec-row"><h2>浙江常见植物</h2><span>共 18 种</span></div>
+  <div class="grid3" data-cards="camphor:f:b1,osmanthus:b2,ginkgo:b3,pine:b4,sweetgum:b5,crape:b6,privet:b7,camellia:b8,azalea:b9"></div>
+</template>
+
+<template id="tpl-search">
+  <header>
+    <div class="row-between">
+      <h1 class="h1-sm">本地植物百科</h1>
+      <div class="pill"><svg class="ic"><use href="#i-pin"/></svg><span>杭州</span></div>
+    </div>
+    <p class="sub">联网查询植物百科，本地结果一并展示。</p>
+  </header>
+  <div style="display:flex;gap:8px;align-items:center;margin-top:12px">
+    <div class="searchbox" style="flex:1;margin-top:0">
+      <svg class="ic"><use href="#i-search"/></svg>
+      <span class="grow" style="color:var(--ink)">樟</span>
+      <svg class="ic" style="width:13px;height:13px;color:var(--sage-300)"><use href="#i-x"/></svg>
+    </div>
+    <span style="font-size:11.5px;color:var(--sage-600);white-space:nowrap">取消</span>
+  </div>
+  <p class="hint">联网查询中国植物志 iplant.cn</p>
+  <div class="sec-row"><h2>本地结果</h2><span>1 种</span></div>
+  <div class="grid3" data-cards="camphor"></div>
+  <div class="sec-row"><h2>中国植物志</h2><span>4 条</span></div>
+  <div class="grid3" data-cards="camphor-entry,monkey,yunnan,huangzhang"></div>
+  <p style="display:flex;gap:6px;border-top:1px solid var(--sage-200);margin-top:18px;padding-top:12px;font-size:10px;line-height:1.7;color:var(--sage-500)">
+    <svg class="ic" style="width:11px;height:11px;color:var(--sage-400);margin-top:1px"><use href="#i-spark"/></svg>
+    结果来自中国植物志（iplant.cn）物种检索；暂无养护资料的条目会明确提示。
+  </p>
+</template>
+
+<template id="tpl-garden">
+  <header>
+    <h1 class="h1-sm">我的花园</h1>
+    <p class="sub">已收藏 9 株植物，点击卡片查看养护详情</p>
+  </header>
+  <div class="grid3" style="margin-top:18px" data-cards="monstera:f,fiddle:f,pothos:f,snake:f,camphor:f,osmanthus:f,ginkgo:f,aloe:f,pilea:f"></div>
+</template>
+
+<template id="tpl-garden-empty">
+  <header>
+    <h1 class="h1-sm">我的花园</h1>
+    <p class="sub">把喜欢的植物收藏在这里，随时查看养护方法</p>
+  </header>
+  <div style="display:flex;flex-direction:column;align-items:center;text-align:center;border-top:1px solid rgba(211,216,202,.7);border-bottom:1px solid rgba(211,216,202,.7);margin-top:26px;padding:64px 10px">
+    <span style="width:62px;height:62px;border-radius:99px;background:var(--sage-100);display:flex;align-items:center;justify-content:center;color:var(--sage-400)">
+      <svg class="ic" style="width:27px;height:27px"><use href="#i-leaf"/></svg>
+    </span>
+    <p style="font-family:var(--serif);font-size:17px;font-weight:600;margin:18px 0 0">花园里还没有植物</p>
+    <p style="font-size:12px;line-height:1.75;color:var(--sage-500);margin:6px 0 0;max-width:240px">在搜索结果中点击心形图标，就能把植物加入花园</p>
+    <div style="display:flex;align-items:center;gap:6px;margin-top:22px;background:var(--sage-700);color:#fff;border-radius:99px;padding:10px 18px;font-size:12px;font-weight:500">
+      <svg class="ic" style="width:13px;height:13px"><use href="#i-book"/></svg>去本地图鉴
+    </div>
+  </div>
+</template>
+
+<template id="tpl-profile">
+  <header>
+    <h1 class="h1-sm">我的</h1>
+    <p class="sub">定位、花园与数据来源设置。</p>
+  </header>
+
+  <p class="section-label">定位设置</p>
+  <div class="loc-card">
+    <div class="row-between">
+      <b>浙江省 · 杭州市</b>
+      <span style="font-size:10px;color:var(--sage-500)">手动选择</span>
+    </div>
+    <p class="meta">已按该省展示常见植物排行</p>
+    <div class="loc-actions">
+      <div class="a primary"><svg class="ic" style="width:12px;height:12px"><use href="#i-pin"/></svg>重新定位</div>
+      <div class="a">选择城市</div>
+      <div class="a">清除</div>
+    </div>
+  </div>
+
+  <p class="section-label">提醒设置</p>
+  <div class="setting-row">
+    <div>
+      <p>收藏提醒</p>
+      <small>收藏或移出植物时，先询问确认再操作</small>
+    </div>
+    <span class="switch"></span>
+  </div>
+
+  <p class="section-label">我的花园</p>
+  <div class="garden-stat">
+    <div class="row-between">
+      <div><span class="num">9<small>株植物已收藏</small></span></div>
+      <svg class="ic fill" style="color:#fb7185"><use href="#i-heart"/></svg>
+    </div>
+    <div class="cats">
+      <span>观叶植物 4</span><span>多肉植物 2</span><span>乡土植物 3</span>
+    </div>
+  </div>
+
+  <p class="section-label"><svg class="ic"><use href="#i-db"/></svg>数据来源</p>
+  <div class="sources">
+    <div class="source"><div><b>本地图鉴</b><span>内置 20 种常见室内植物，离线可用</span></div></div>
+    <div class="source"><div><b>植物百科</b><span>Wikipedia 中文摘要，仅保留植物类条目</span></div><span class="link">zh.wikipedia.org<svg class="ic"><use href="#i-ext"/></svg></span></div>
+    <div class="source"><div><b>中国植物志</b><span>植物智 iplant.cn，定位在中国时的检索源</span></div><span class="link">iplant.cn<svg class="ic"><use href="#i-ext"/></svg></span></div>
+    <div class="source"><div><b>省级常见植物</b><span>省内标本采集记录数降序</span></div></div>
+  </div>
+</template>
+
+<script>
+(function(){
+  const API = "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image";
+
+  /* 植物数据：名称 / 学名 / 图片描述 */
+  const P = {
+    monstera:{n:"龟背竹",s:"Monstera deliciosa",p:"monstera deliciosa in a cream ceramic pot near a window, soft daylight, minimal interior, editorial plant photography"},
+    fiddle:{n:"琴叶榕",s:"Ficus lyrata",p:"fiddle leaf fig tree in a woven basket, bright minimal room, natural light"},
+    pothos:{n:"绿萝",s:"Epipremnum aureum",p:"golden pothos trailing vine in a hanging ceramic pot, soft window light"},
+    snake:{n:"虎尾兰",s:"Sansevieria trifasciata",p:"sansevieria snake plant in a terracotta pot, minimal warm interior"},
+    zz:{n:"金钱树",s:"Zamioculcas zamiifolia",p:"zz plant with glossy compound leaves in a white pot on a wooden stool"},
+    lily:{n:"白掌",s:"Spathiphyllum wallisii",p:"peace lily with white spathe flower in a ceramic pot, soft light"},
+    aloe:{n:"芦荟",s:"Aloe vera",p:"aloe vera succulent in a terracotta pot, bright natural light"},
+    pilea:{n:"镜面草",s:"Pilea peperomioides",p:"pilea peperomioides round leaves in a small ceramic pot"},
+    camphor:{n:"樟树",s:"Cinnamomum camphora",p:"large camphor tree canopy, glossy green leaves, dappled southern sunlight, editorial nature photography"},
+    osmanthus:{n:"桂花",s:"Osmanthus fragrans",p:"osmanthus fragrans shrub with tiny pale orange fragrant flowers, close up"},
+    ginkgo:{n:"银杏",s:"Ginkgo biloba",p:"ginkgo biloba golden fan shaped leaves on a branch, autumn light, botanical photography"},
+    pine:{n:"马尾松",s:"Pinus massoniana",p:"masson pine forest with tall reddish trunks, morning light"},
+    sweetgum:{n:"枫香",s:"Liquidambar formosana",p:"liquidambar formosana autumn foliage, deep red maple-like leaves"},
+    crape:{n:"紫薇",s:"Lagerstroemia indica",p:"lagerstroemia indica with pink crepe paper flowers, summer garden"},
+    privet:{n:"女贞",s:"Ligustrum lucidum",p:"ligustrum lucidum glossy green hedge with small berries"},
+    camellia:{n:"山茶",s:"Camellia japonica",p:"camellia japonica red bloom with glossy dark leaves"},
+    azalea:{n:"杜鹃",s:"Rhododendron simsii",p:"rhododendron simsii pink azalea in full bloom, misty spring garden"},
+    "camphor-entry":{n:"樟",s:"Cinnamomum camphora",p:""},
+    monkey:{n:"猴樟",s:"Cinnamomum bodinieri",p:""},
+    yunnan:{n:"云南樟",s:"Cinnamomum glanduliferum",p:""},
+    huangzhang:{n:"黄樟",s:"Cinnamomum porrectum",p:""}
+  };
+
+  /* 1. 模板克隆 */
+  document.querySelectorAll("[data-clone]").forEach(function(el){
+    const tpl = document.getElementById(el.dataset.clone);
+    if (tpl) el.innerHTML = tpl.innerHTML;
+  });
+
+  /* 2. 卡片网格渲染 */
+  document.querySelectorAll("[data-cards]").forEach(function(el){
+    el.innerHTML = el.dataset.cards.split(",").map(function(raw){
+      const parts = raw.trim().split(":").map(function(s){return s.trim();});
+      const key = parts[0];
+      const plant = P[key];
+      if (!plant) return "";
+      const filled = parts.indexOf("f") > -1;
+      const badge = parts.filter(function(s){return s.charAt(0)==="b";})[0];
+      const img = plant.p
+        ? '<img data-p="' + plant.p.replace(/"/g,"&quot;") + '" alt="" onerror="this.remove()" />'
+        : "";
+      return '<div class="card">'
+        +   '<div class="thumb">'
+        +     '<span class="fallback"><svg class="ic"><use href="#i-leaf"/></svg></span>' + img
+        +     (badge ? '<span class="badge">No.' + badge.slice(1) + '</span>' : "")
+        +   '</div>'
+        +   '<span class="cname">' + plant.n + '</span>'
+        +   '<span class="csci">' + plant.s + '</span>'
+        +   '<span class="heart' + (filled ? " on" : "") + '"><svg class="ic' + (filled ? " fill" : "") + '"><use href="#i-heart"/></svg></span>'
+        + '</div>';
+    }).join("");
+  });
+
+  /* 3. 状态栏 */
+  const SB = '<span>9:41</span><span class="sb-r">'
+    + '<svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>'
+    + '<svg width="15" height="11" viewBox="0 0 15 11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M1 3.6a9 9 0 0 1 13 0"/><path d="M3.4 6.3a5.8 5.8 0 0 1 8.2 0"/><circle cx="7.5" cy="9" r=".9" fill="currentColor" stroke="none"/></svg>'
+    + '<svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x=".6" y=".6" width="19" height="9.8" rx="2.6" stroke="currentColor" opacity=".4"/><rect x="2.2" y="2.2" width="15" height="6.6" rx="1.4" fill="currentColor"/><path d="M21.4 4v3a2 2 0 0 0 0-3Z" fill="currentColor" opacity=".5"/></svg>'
+    + '</span>';
+  document.querySelectorAll(".sb").forEach(function(el){ el.innerHTML = SB; });
+
+  /* 4. 底部页签 */
+  const TABS = [["home","首页","i-home"],["atlas","本地图鉴","i-book"],["garden","我的花园","i-heart"],["profile","我的","i-user"]];
+  const icon = function(id, cls){ return '<svg class="ic ' + (cls||"") + '"><use href="#' + id + '"/></svg>'; };
+  document.querySelectorAll(".nav").forEach(function(nav){
+    const active = nav.dataset.active;
+    nav.innerHTML = TABS.map(function(t){
+      const on = t[0] === active;
+      return '<div class="nav-item' + (on ? " on" : "") + '">'
+        + icon(t[2], on && t[0] === "garden" ? "fill" : "")
+        + '<span>' + t[1] + '</span></div>';
+    }).join("");
+  });
+
+  /* 5. 图片注入（加载失败时移除，露出叶形回退） */
+  document.querySelectorAll("img[data-p]").forEach(function(img){
+    const prompt = img.dataset.p;
+    img.src = API + "?prompt=" + encodeURIComponent(prompt) + "&image_size=" + (img.dataset.size || "square");
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>隐私政策 · 植语</title>
+<style>
+  :root{
+    --cream:#faf9f4;--ink:#1b2118;--ink-soft:#5b6650;
+    --sage-600:#5c6a4c;--sage-700:#49543e;--sage-100:#e8ebe3;--hair:#e2ded3;
+    --serif:"Songti SC","Noto Serif SC","Source Han Serif SC",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans SC",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-font-smoothing:antialiased}
+  body{margin:0;font-family:var(--sans);background:var(--cream);color:var(--ink);line-height:1.85;font-size:15px}
+  .wrap{max-width:640px;margin:0 auto;padding:72px 32px 120px}
+  h1{font-family:var(--serif);font-weight:600;font-size:36px;margin:0;letter-spacing:-.01em}
+  .meta{color:var(--ink-soft);font-size:13px;margin:14px 0 48px}
+  h2{font-family:var(--serif);font-weight:600;font-size:20px;margin:44px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--hair)}
+  p{margin:10px 0;color:var(--ink-soft)}
+  ul{padding-left:20px;color:var(--ink-soft);margin:8px 0}
+  li{margin:5px 0}
+  strong{color:var(--ink)}
+  code{background:var(--sage-100);color:var(--sage-700);padding:1px 6px;border-radius:4px;font-size:13px}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+  th,td{border-bottom:1px solid var(--hair);padding:10px 12px;text-align:left;vertical-align:top}
+  th{font-weight:500;color:var(--sage-700);font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:transparent}
+  tr:nth-child(even) td{background:#fdfbf5}
+  .tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:8px;margin-right:4px}
+  .tag-local{background:var(--sage-100);color:var(--sage-700)}
+  .tag-net{background:#f0ece3;color:#7a7469}
+  .note{background:var(--sage-100);border-left:3px solid var(--sage-600);padding:14px 18px;margin:18px 0;border-radius:0 8px 8px 0;font-size:14px}
+  .note strong{color:var(--sage-700)}
+  @media print{body{background:#fff}.wrap{padding:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>隐私政策</h1>
+<div class="meta">植语 Plant Care · 最后更新 2026 年 10 月</div>
+
+<p>「植语」是一款轻量的植物养护工具，不注册、不登录、不追踪。本页说明 App 在你的设备上会存储什么、联网请求到哪里，以及这些数据如何被使用。</p>
+
+<!-- ============ -->
+<h2>1. 本 App 不会收集的</h2>
+<p>先说清楚我们 <strong>不</strong> 做的事：</p>
+<ul>
+  <li>不要求注册、不收集邮箱、手机号、昵称或任何账号信息</li>
+  <li>不集成第三方分析 SDK（无 Google Analytics、Amplitude、Sentry、Firebase 等）</li>
+  <li>不上传崩溃日志、使用时长或点击行为</li>
+  <li>不包含广告 SDK，不做个性化推送</li>
+  <li>不向任何用户之外的主体出售、交换或租赁你的数据</li>
+</ul>
+
+<!-- ============ -->
+<h2>2. 本地存储</h2>
+<p>以下数据仅保存在你的设备本地（Android / iOS 的应用沙盒，Web 端为 localStorage），<strong>不会被发送到任何服务器</strong>，App 卸载后会一并清除：</p>
+
+<table>
+  <thead><tr><th>存储内容</th><th>Key / 字段</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>收藏的植物</td><td class="font-mono text-[12px]">plant-care-garden</td><td>你在「我的花园」中收藏的植物对象数组</td></tr>
+    <tr><td>最近浏览</td><td class="font-mono text-[12px]">plant-care-recent</td><td>你点开过详情的植物，用于首页「最近浏览」</td></tr>
+    <tr><td>定位结果</td><td class="font-mono text-[12px]">plant-care-location</td><td>省份、城市、定位来源（GPS / IP / 手动选择），以及可选的经纬度坐标</td></tr>
+    <tr><td>收藏提醒开关</td><td class="font-mono text-[12px]">plant-care-collect-prompt</td><td>"0" = 关闭确认条；"1" 或未设置 = 开启</td></tr>
+  </tbody>
+</table>
+
+<div class="note">
+  <strong>定位数据的处理方式</strong>：GPS 或 IP 拿到经纬度后，App 会用它反查对应的省份和城市（见下一节），然后把省份/城市/来源存入 localStorage。<strong>经纬度本身不发送到后端</strong>，仅用于本地反查；如果你在「我的」页清除了定位，localStorage 中整条记录会被删除。
+</div>
+
+<!-- ============ -->
+<h2>3. 联网请求</h2>
+<p>只有当你主动搜索植物或选择定位时，App 才会发起联网请求。所有请求都 <strong>只携带功能必需的最小信息</strong>——搜索关键词、拉丁学名或坐标——不携带任何用户身份标记。</p>
+
+<table>
+  <thead><tr><th>请求目标</th><th>触发场景</th><th>发送内容</th><th>对方隐私政策</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>zh.wikipedia.org（维基百科）</td>
+      <td>未定位时搜索植物百科</td>
+      <td>搜索关键词（如「绿萝」）</td>
+      <td>见 <a href="https://foundation.wikimedia.org/wiki/Privacy_policy/zh-hans" target="_blank" rel="noopener">Wikimedia 隐私政策</a></td>
+    </tr>
+    <tr>
+      <td>iplant.cn（中国植物志）</td>
+      <td>定位在中国时搜索植物百科</td>
+      <td>搜索关键词（如「樟树」）</td>
+      <td>见 <a href="https://www.iplant.cn" target="_blank" rel="noopener">植物智 iplant.cn</a> 页脚说明</td>
+    </tr>
+    <tr>
+      <td>cvh.ac.cn（中国植物物种名录）</td>
+      <td>获取某植物的省级分布等补充信息</td>
+      <td>植物拉丁学名（如 <em>Cinnamomum camphora</em>）</td>
+      <td>CVH 为公共科研数据源，不要求用户注册</td>
+    </tr>
+    <tr>
+      <td>坐标反查服务</td>
+      <td>GPS / IP 拿到经纬度后反查省/市</td>
+      <td>经纬度（如 30.2741, 120.1551）</td>
+      <td>仅在 GPS / IP 定位流程中使用一次，反查完成即丢弃坐标</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>App 后端（Node 轻量代理）仅负责转发上面第三类请求并补上 CVH / iplant 接口要求的 <code>Referer</code> 头，不记录查询日志，不解析你的 IP 地址。</p>
+
+<!-- ============ -->
+<h2>4. 定位权限</h2>
+<p>定位功能遵循"用户主动触发"原则：</p>
+<ul>
+  <li>App 启动时 <strong>不会</strong> 请求定位权限</li>
+  <li>只有当你在首页或「我的」页点击「使用当前位置」时，才会申请权限</li>
+  <li>权限被拒绝后，App 不会绕过权限去猜你的位置</li>
+  <li>你随时可以在「我的」页手动选择城市或清除定位</li>
+</ul>
+<p>iOS 用户可在「设置 → 隐私与安全 → 定位服务 → 植语」中随时修改权限；Android 用户可在系统设置的应用权限中修改。</p>
+
+<!-- ============ -->
+<h2>5. 数据保留与删除</h2>
+<p>所有数据都只在本设备上，App 卸载即全部清除。如果你想先手动清空，可以：</p>
+<ul>
+  <li>在「我的花园」中逐个移出植物，或直接卸载 App</li>
+  <li>在「我的」页清除定位，会删除存储的省份、城市与经纬度</li>
+  <li>在浏览器版（Web App）中清除浏览器的 LocalStorage</li>
+</ul>
+
+<!-- ============ -->
+<h2>6. 儿童与未成年人</h2>
+<p>本 App 不区分用户年龄，也不针对儿童。由于 App 不收集个人身份信息，我们没有专门的儿童数据处理流程。</p>
+
+<!-- ============ -->
+<h2>7. 政策更新</h2>
+<p>如本政策发生变更，我们会在 App 内或此页面发布更新说明。持续使用 App 即视为同意最新版本的政策。</p>
+
+<!-- ============ -->
+<h2>8. 联系</h2>
+<p>对这份隐私政策或 App 的数据处理方式有任何疑问，可以通过 App 「我的 → 数据来源」中的链接找到我们，或在代码仓库中提 Issue。</p>
+
+<div class="rule" style="height:1px;background:var(--hair);margin:64px 0 24px"></div>
+<p style="font-size:13px;color:var(--ink-soft);text-align:center">植语 · 离线可用 · 无需注册 · 不上传个人信息</p>
+
+</div>
+</body>
+</html>

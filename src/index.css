@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@theme {
+  --color-sage-50: #f6f7f4;
+  --color-sage-100: #e8ebe3;
+  --color-sage-200: #d3d8ca;
+  --color-sage-300: #b5bea5;
+  --color-sage-400: #94a07e;
+  --color-sage-500: #768462;
+  --color-sage-600: #5c6a4c;
+  --color-sage-700: #49543e;
+  --color-sage-800: #3c4534;
+  --color-sage-900: #333a2d;
+  --color-sage-950: #1a1f16;
+
+  --color-cream: #faf9f4;
+  --color-paper: #f3f2ec;
+  --color-ink: #1b2118;
+  --color-ink-soft: #5b6650;
+
+  /* 标题用衬线（拉丁用 Fraunces，中文回退到宋体/思源宋体），正文用系统无衬线 */
+  --font-serif: "Fraunces", "Songti SC", "Noto Serif SC", "Source Han Serif SC",
+    Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC",
+    "Helvetica Neue", Arial, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+@layer base {
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    /* 顶部极淡的暖色晕染，避免大面积纯色的平板感 */
+    background-color: var(--color-cream);
+    background-image: radial-gradient(
+      120% 55% at 50% 0%,
+      #ffffff 0%,
+      rgba(250, 249, 244, 0) 60%
+    );
+    background-repeat: no-repeat;
+    color: var(--color-ink);
+  }
+
+  ::selection {
+    background: var(--color-sage-200);
+    color: var(--color-sage-900);
+  }
+
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer utilities {
+  .font-serif {
+    font-family: var(--font-serif);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
